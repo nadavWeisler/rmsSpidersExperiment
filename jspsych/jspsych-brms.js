@@ -70,7 +70,7 @@ class Mondrian {
 
         this.draw = function (context, mondrian_opacity) {
             context.save();
-            if(mondrian_opacity < 1) {
+            if (mondrian_opacity < 1) {
                 console.log(mondrian_opacity);
             }
             context.globalAlpha = Number(mondrian_opacity);
@@ -183,7 +183,7 @@ jsPsych.plugins["rms"] = (function () {
             waiting_time: {
                 type: jsPsych.plugins.parameterType.INT,
                 pretty_name: 'Waiting time',
-                default: 0.4,
+                default: 0,
                 description: "Time to wait before showing the stimulus in seconds"
             },
             stimulus_opacity: {
@@ -295,6 +295,8 @@ jsPsych.plugins["rms"] = (function () {
             const stimulus_max_opacity = Number(trial.stimulus_opacity);
             const mondrian_max_opacity = Number(trial.mondrian_max_opacity);
             const mondrian_min_opacity = Number(trial.mondrian_min_opacity);
+            const waiting_time = Number(trial.waiting_time);
+            const trial_duration = Number(trial.trial_duration);
 
             let orientation = 'h';
             if (frame_height > frame_width) {
@@ -321,7 +323,7 @@ jsPsych.plugins["rms"] = (function () {
 
             mondrians_random_numbers = [];
             mondrians_index = 0;
-            for (let i = 0; i < trial.trial_duration * 500; i++) {
+            for (let i = 0; i < trial_duration * 500; i++) {
                 mondrians_random_numbers.push(Math.floor(Math.random() * mondrians.length));
             }
 
@@ -357,7 +359,7 @@ jsPsych.plugins["rms"] = (function () {
                     return false;
                 }
             }
-            
+
             let start_time = 0;
             let masked = false;
             let current_time = 0;
@@ -365,10 +367,10 @@ jsPsych.plugins["rms"] = (function () {
             let start_stimulus_time = new Date().getTime();
             let stimulus_opacity = 0;
             let mondrian_opacity = 0;
-            const start_fade_out = (Number(trial.trial_duration) - Number(trial.fade_out_time)) * 1000;
+            const start_fade_out = (trial_duration - Number(trial.fade_out_time)) * 1000;
             const end_fade_in = Number(trial.fade_in_time) * 1000;
 
-            function run_animation_loop() {
+            function animation_loop() {
                 // Calculate time elapsed since the last animation frame
                 current_time = new Date().getTime();
 
@@ -397,7 +399,13 @@ jsPsych.plugins["rms"] = (function () {
                     masked = true;
                 }
 
-                animation = window.requestAnimationFrame(run_animation_loop);
+                if ((current_time - start_time) >= ((trial_duration + waiting_time) * 1000)) {
+                    window.cancelAnimationFrame(animation);
+                    frame_context.clearRect(0, 0, frame_canvas.width, frame_canvas.height);
+                    end_trial();
+                } else {
+                    animation = window.requestAnimationFrame(animation_loop);
+                }
             }
 
             const end_trial = function () {
@@ -471,15 +479,8 @@ jsPsych.plugins["rms"] = (function () {
 
                 setTimeout(function () {
                     start_time = new Date().getTime();
-                    run_animation_loop();
+                    animation_loop();
                 }, trial.waiting_time * 1000);
-
-
-                setTimeout(function () {
-                    window.cancelAnimationFrame(animation);
-                    frame_context.clearRect(0, 0, frame_canvas.width, frame_canvas.height);
-                    end_trial();
-                }, (trial.trial_duration + trial.waiting_time) * 1000);
             };
 
             start_trial();
