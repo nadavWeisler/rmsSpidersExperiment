@@ -11,6 +11,7 @@
     <script src="jspsych/jspsych-survey-multi-select.js" type="text/javascript"></script>
     <script src="jspsych/jspsych-survey-text.js" type="text/javascript"></script>
     <script src="jspsych/jspsych-instructions.js" type="text/javascript"></script>
+    <script src="jspsych/jspsych-fullscreen.js" type="text/javascript"></script>
     <link rel="stylesheet" href="css/jspsych.css" type="text/css">
 
     <script id="functions">
@@ -84,6 +85,7 @@
                     choices: choices,
                     // right_up: choices[0],
                     // left_down: choices[1],
+                    fade_in_time: 1,
                     response_ends_trial: true,
                     post_trial_gap: 400,
                     stimulus_opacity: 0.3,
@@ -102,8 +104,8 @@
             pages: [
                 "Before this next task starts, please adjust your chair and screen in a way that is convenient to you. <br> Make sure you are about 1 feet away from the screen, and not more than 2 feet (somewhere between 30 and 70 centimeters). <br> If needed, please move your chair/screen closer or further away from you.",
                 "The goal of this task is to understand information processing under visual noise. This task will last 7-10 minutes. ",
-                "On every round, you will see flashes of colorful squares on the screen, with a '+' sign in the middle of it. <br> Please sit directly in front of the screen (between 30 and 70 centimeters away) and look directly at the '+' sign.",
-                "After some time, you will see a face appearing behind the colorful squares. Your task is to indicate whether the face appeared in the left or right side of the screen, as fast as you can. <br> When you see a face through the squares please press 'P' if it appears right to the '+' sign; and 'Q' if it appears left to the '+' sign.",
+                "On every round, you will see flashes of colorful squares on the screen, with a '+' sign in the middle of it. <br> Please sit directly in front of the screen and look directly at the '+' sign.",
+                "After some time, you will see a stimulus appearing behind the colorful squares - the stimuli might be human faces or animals. Your task is to indicate whether the stimulus (face or animal) appeared in the left or right side of the screen, as fast as you can. <br> When you see a stimulus through the squares, please press 'P' if it appears right to the '+' sign; and 'Q' if it appears left to the '+' sign.",
                 "Next, we will have a short training session. Press 'Next' to start.<br> Remember to look directly on the '+' sign during the study. 'P' = Right 'Q' = Left."
             ],
             show_clickable_nav: true,
@@ -123,6 +125,16 @@
             name: "rms_where_main_instructions"
         };
 
+        const rms_between_blocks_instructions = {
+            pages: [
+                "You finished the first part. When you are ready, please proceed to the final part of this task."
+            ],
+            show_clickable_nav: true,
+            type: "instructions",
+            direction: "ltr",
+            name: "rms_where_between_blocks_instructions"
+        }
+
         //All Practice stimulus
         const imagesPractice = ["images/rms/f42887_e_001.jpg",
             "images/rms/f42887_e_001.jpg", "images/rms/f42887_e_001.jpg", "images/rms/f42887_e_001.jpg",
@@ -130,11 +142,25 @@
             "images/rms/f42887_e_001.jpg", "images/rms/f42887_e_001.jpg", "images/rms/f42887_e_001.jpg"
         ];
 
-        const imagesMainSpiders = []
+        // All spiders stimulus (40 images for the validation of all of the stimuli)
+        const imagesMainSpiders = [
+            "images/spidersWithoutBackground/spider1.png", "images/spidersWithoutBackground/spider2.png", "images/spidersWithoutBackground/spider3.png", 
+            "images/spidersWithoutBackground/spider4.png", "images/spidersWithoutBackground/spider5.png", "images/spidersWithoutBackground/spider7.png", 
+            "images/spidersWithoutBackground/spider6.png", "images/spidersWithoutBackground/spider8.png", "images/spidersWithoutBackground/spider9.png", 
+            "images/spidersWithoutBackground/spider10.png", "images/spidersWithoutBackground/spider11.png", "images/spidersWithoutBackground/spider12.png", 
+            "images/spidersWithoutBackground/spider13.png", "images/spidersWithoutBackground/spider14.png", "images/spidersWithoutBackground/spider15.png", 
+            "images/spidersWithoutBackground/spider16.png", "images/spidersWithoutBackground/spider17.png", "images/spidersWithoutBackground/spider18.png", 
+            "images/spidersWithoutBackground/spider19.png", "images/spidersWithoutBackground/spider20.png", "images/spidersWithoutBackground/spider21.png", 
+            "images/spidersWithoutBackground/spider22.png", "images/spidersWithoutBackground/spider23.png", "images/spidersWithoutBackground/spider24.png", 
+            "images/spidersWithoutBackground/spider25.png", "images/spidersWithoutBackground/spider26.png", "images/spidersWithoutBackground/spider27.png", 
+            "images/spidersWithoutBackground/spider28.png", "images/spidersWithoutBackground/spider29.png", "images/spidersWithoutBackground/spider30.png", 
+            "images/spidersWithoutBackground/spider31.png", "images/spidersWithoutBackground/spider32.png", "images/spidersWithoutBackground/spider33.png", 
+            "images/spidersWithoutBackground/spider34.png", "images/spidersWithoutBackground/spider35.png", "images/spidersWithoutBackground/spider36.png", 
+            "images/spidersWithoutBackground/spider37.png", "images/spidersWithoutBackground/spider38.png", "images/spidersWithoutBackground/spider39.png", 
+            "images/spidersWithoutBackground/spider40.png"
+        ]
 
-        const imagesMainSpidersReverted = []
-
-        // All main task not reverted faces stimulus
+        // All main task not reverted faces stimulus (20 images)
         const imagesMainFaces = [
             "images/rms/f42887_e_001.jpg", "images/rms/f42887_e_005.jpg", "images/rms/f42887_e_015.jpg",
             "images/rms/f42887_e_025.jpg", "images/rms/f42887_e_028.jpg", "images/rms/f42887_e_053.jpg",
@@ -145,51 +171,28 @@
             "images/rms/f42887_e_202.jpg", "images/rms/f42887_e_241.jpg"
         ]
 
-        // All main task reverted faces stimulus
-        const imagesMainFacesReverted = [
-            "images/rms/f42887_e_001_1.jpg", "images/rms/f42887_e_005_1.jpg", "images/rms/f42887_e_015_1.jpg",
-            "images/rms/f42887_e_025_1.jpg", "images/rms/f42887_e_028_1.jpg", "images/rms/f42887_e_053_1.jpg",
-            "images/rms/f42887_e_058_1.jpg", "images/rms/f42887_e_064_1.jpg", "images/rms/f42887_e_072_1.jpg",
-            "images/rms/f42887_e_080_1.jpg", "images/rms/f42887_e_098_1.jpg", "images/rms/f42887_e_103_1.jpg",
-            "images/rms/f42887_e_121_1.jpg", "images/rms/f42887_e_127_1.jpg", "images/rms/f42887_e_140_1.jpg",
-            "images/rms/f42887_e_156_1.jpg", "images/rms/f42887_e_161_1.jpg", "images/rms/f42887_e_180_1.jpg",
-            "images/rms/f42887_e_202_1.jpg", "images/rms/f42887_e_241_1.jpg"
-        ]
-
 
         // Choices for RMS trials (q for left and p for right)
         const choices = ["q", "p"];
 
         function get_rms_trials() {
-            // Create RMS timeline
-            let rms_trials = [];
-
-            // Add Rms instructions
-            rms_trials.push(rms_instructions);
-
             // Create all RMS practice trials
             const trainingRmsTrials = getRmsTrials(imagesPractice, choices, "training");
 
-            // Add all practice trials to RMS timeline in random order (using shuffle function)
-            shuffle(trainingRmsTrials).forEach(function (trial) {
-                rms_trials.push(trial);
-            });
+            const spiders_trials = getRmsTrials(imagesMainSpiders, choices, "main_spider");
 
-            // Add RMS instuctions (for main trials)
-            rms_trials.push(rms_main_instructions);
+            const faces_trials = getRmsTrials(imagesMainFaces, choices, "main_face")
 
-            // Create all RMS main trials (faces, spiders, reverted and not reverted together)
-            const allMainRmsTrials = getRmsTrials(imagesMainFaces, choices, "main").concat(
-                getRmsTrials(imagesMainFacesReverted, choices, "reversed")).concat(
-                    getRmsTrials(imagesMainSpiders, choices, "reversed")).concat(
-                        getRmsTrials(imagesMainSpidersReverted, choices, "reversed"));
 
-            // Add all main trials to RMS timeline in random order (using shuffle function)
-            shuffle(allMainRmsTrials).forEach(function (trial) {
-                rms_trials.push(trial);
-            });
+            return [
+                rms_instructions,
+                ...shuffle(trainingRmsTrials),
+                rms_main_instructions,
+                ...shuffle(spiders_trials),
+                rms_between_blocks_instructions,
+                ...shuffle(faces_trials)
+            ]
 
-            return rms_trials;
         }
     </script>
 
@@ -197,11 +200,11 @@
         // Create ASRS instructions
         const fsq_instructions = {
             pages: [
-                "עבור כל אחד מהמצבים המתוארים בהיגדים הבאים, אנא סמני עד כמה זה מאפיין אותך<br>השתמשי בסולם הדירוג שלפניך הנע בין \"אף פעם לא\" לבין \"לעיתים תכופות מאד\""
+                "Thank you for the participation so far. Now, you will be asked to answer TWO surveys. <br> <h1>Survey 1</h1> For each item, please indicate how much you agree with the presented statement on a scale of 0 to 7. <br> <strong>0 means: strongly disagree, and 7 means: strongly agree.</strong> <br>Press \"Continue\" to start the survey."
             ],
             show_clickable_nav: true,
             type: "instructions",
-            direction: "rtl",
+            direction: "ltr",
             name: "intro_fsq"
         };
 
@@ -209,6 +212,7 @@
             "If I came across a spider now, I would get help from someone else to remove it.",
             "Currently, I am sometimes on the lookout for spiders.",
             "If I saw a spider now, I would think it will harm me.",
+            "If you read that, please press the label 3.",
             "I now think a lot about spiders.",
             "I would be somewhat afraid to enter a room now, where I have seen a spider before.",
             "I now would do anything to try to avoid a spider.",
@@ -220,13 +224,13 @@
             "If I saw a spider now, I would ask someone else to kill it.",
             "If I encountered a spider now, I would have images of it trying to get me.",
             "If I saw a spider now, I would be afraid of it.",
+            "If you read that, please press the label 7.",
             "If I saw a spider now, I would feel very panicky.",
             "Spiders are one of my worst fears.",
             "I would feel very nervous if I saw a spider now.",
-            "If I saw a spider now, I would probably break out in a sweat and my heart would beat faster."
-        ];
+            "If I saw a spider now, I would probably break out in a sweat and my heart would beat faster."];
 
-        const fsq_labels = ["1", "2", "3", "4", "5", "6", "7"];
+        const fsq_labels = ["0 - Strongly disagree", "1", "2", "3", "4", "5", "6", "7 - Strongly agree"];
 
         const fsq_survey = getSurveyTrials("survey-likert", "fsq", fsq_questions, "ltr", fsq_labels)
 
@@ -245,12 +249,12 @@
         // Create ASRS instructions
         const asrs_instructions = {
             pages: [
-                "עבור כל אחד מהמצבים המתוארים בהיגדים הבאים, אנא סמני עד כמה זה מאפיין אותך<br>השתמשי בסולם הדירוג שלפניך הנע בין \"אף פעם לא\" לבין \"לעיתים תכופות מאד\""
+                "<h1>Survey 2</h1> For each of the situations described in the following statements, please indicate how much it characterizes you. <br><strong>Use the rating scale in front of you ranging from \"never\" to \"very often\"</strong>"
             ],
             show_clickable_nav: true,
             type: "instructions",
-            direction: "rtl",
-            name: "intro_fsq"
+            direction: "ltr",
+            name: "intro_ASRS"
         };
 
         const asrs_labels = ["never", "rarely", "sometimes", "often", "very often"];
@@ -274,7 +278,8 @@
             "How often do you have difficulty unwinding and relaxing when you have time to yourself?",
             "How often do you feel overly active and compelled to do things, like you were driven by a motor?",
             "How often do you find yourself talking too much when you are in a social situation?",
-            "When you’re in a conversation, how often do you find yourself finishing the sentences of the people that you are talking to, before they can finish them themselves?",
+            "If you read that, please press the label 'rarely'.",
+            "When you are in a conversation, how often do you find yourself finishing the sentences of the people that you are talking to, before they can finish them themselves?",
             "How often do you have difficulty waiting your turn in situations when turn-taking is required?",
             "How often do you interrupt others when they are busy?"
         ];
@@ -301,15 +306,16 @@
         // Create start experiment trials
         const start = [{
             pages: [
-                "You are invited to participate in web-based research of meaningful perception. the experiment will take approximately X minutes to complete. <br><br><b>PARTICIPATION</b><br>Your participation in this survey is voluntary. You may refuse to take part in the research or exit the survey at any time.<br><br><b>BENEFITS</b><br>You will be compensated X USD for participation in this study. <br>Although this study will not benefit you personally, we hope that our results will add to the knowledge about human experiences.",
+                "<h1>Hello!</h1> You are invited to participate in web-based research of meaningful perception. the experiment will take approximately 30 minutes to complete. <br><br><b>PARTICIPATION</b><br>Your participation in this survey is voluntary. You may refuse to take part in the research or exit the survey at any time.<br><br><b>BENEFITS</b><br>You will be compensated with £4.50 for participation in this study (the pricing is £9.00 per hour). <br>Although this study will not benefit you personally, we hope that our results will add to the knowledge about human experiences.",
                 "<b>RISKS</b><br>There are no foreseeable risks involved in participating in this study other than those encountered in standard use of the device you use to access the survey (computer, smartphone, etc.).<br>Your participation in this study will not include psychological counseling. In the event you seek such services, please contact the center below:<br>National Hopeline Network 1-800-784-2433<br><br><b>CONFIDENTIALITY</b><br>All of your responses will be held in confidence. Only the researchers involved in this study and those responsible for research oversight will have access to the information you provide.<br>The researcher will not know your name, and no identifying information will be connected to your survey answers in any way. The survey is therefore anonymous.",
-                "<b>CONTACT</b><br>If you have questions at any time about the study or the procedures, you may contact the researcher, Nadav Weisler via email at nadav.weisler1@mai.huji.ac.il<br><br><b>ELECTRONIC CONSENT:</b><br> Please note - clicking on the “Next >” button indicates that:<br>•You have read the above information<br>• You voluntarily agree to participate<br>• You are 18 years of age or older<br>If you do not want to participate please close the window. Your data will not be used either way.",
-                "We are about to begin. First, please answer the next few questions regarding demographic information."
+                "<b>CONTACT</b><br>If you have questions at any time about the study or the procedures, you may contact the researcher, Gaya Aran via email at gaya.aran@mai.huji.ac.il<br><br><b>ELECTRONIC CONSENT:</b><br> Please note - clicking on the “Next >” button indicates that:<br>•You have read the above information<br>• You voluntarily agree to participate<br>• You are 18 years of age or older<br>If you do not want to participate please close the window. Your data will not be used either way.",
+                "We are about to begin. First, please answer the next few questions regarding demographic information. After that, you will be asked to peform computerized task, and answer two more questionnaires."
             ],
             show_clickable_nav: true,
             type: "instructions",
             direction: "ltr",
-            name: "gender_instructions"
+            name: "gender_instructions",
+            fullscreen_mode: true
         }, {
             questions: [{
                 options: ["Male", "Female", "Other"],
@@ -339,7 +345,7 @@
                 rows: 1.0,
                 columns: 25.0,
                 value: "",
-                prompt: "Please enter your mTurk ID.<br>Note, that if you don't include your mTurk ID, we may not be able to compensate you:",
+                prompt: "Please enter your Prolific ID.<br>Note, that if you don't include your Prolofoc ID, we may not be able to compensate you:",
                 required: true
             }],
             type: "survey-text",
@@ -348,32 +354,52 @@
         }, {
             questions: [{
                 options: ["Yes", "No"],
-                prompt: "Have you ever been officially diagnosed with ADD / ADHD?",
+                prompt: "Have you ever been officially diagnosed with anxiety disorder (e.g., OCD, panic disorder, agoraphobia, specific phobia, social anxiety, generalized anxiety disorder)?",
                 required: true
             }],
             type: "survey-multi-choice",
             direction: "ltr",
-            name: "attention_1"
+            name: "anxiety_1"
+        }, {
+            questions: [{
+                options: ["Panic disorder", "Social anxiety", "Specific phobia", "Generalized Anxiety Disorder (GAD)", "Obsessive Compulsive Disorder (OCD)", "Other"],
+                prompt: "If you were officially diagnosed with anxiety disorder, what was the diagnosis? (If you were not diagnosed, please skip this question by pressing the \"continue\" button)",
+                required: false
+            }],
+            type: "survey-multi-choice",
+            direction: "ltr",
+            name: "anxiety_2"
         }, {
             questions: [{
                 labels: ["1", "2", "3", "4", "5", "6", "7"],
-                prompt: "If you did not officially diagnosed with ADD / ADHD, what is your suspicion level that you have ADD / ADHD?, " +
-                    "where 1 is \"I am sure I don't have ADD / ADHD\" and 7 is \"I am sure I have ADD / ADHD\".<br>" +
-                    "If you were officially diagnosed with ADD / ADHD, please select 1.",
+                prompt: "If you were not officially diagnosed with anxiety disorder, what is your suspicion level that you have anxiety disorder (of any kind)?, " +
+                    "where 1 is \"I am sure I don't have anxiety disorder\" and 7 is \"I am sure I have anxiety disorder\".<br>" +
+                    "If you were officially diagnosed with anxiety disorder, please select 1.",
                 required: true
             }],
             type: "survey-likert",
             direction: "ltr",
-            name: "attention_2"
+            name: "anxiety_3"
         }, {
             questions: [{
-                options: ["High school", "Bachelor's Degree", "Master's Degree", "Ph.D.", "Trade school", "Prefer not to answer"],
-                prompt: "What is the highest degree or level of education you have completed?",
+                options: ["Some high school, no diploma", "High school graduate, diploma or the equivalent (for example: GED)", "Bachelor's Degree", "Master's Degree", "Ph.D.", "Trade/technical/vocational training", "Prefer not to answer"],
+                prompt: "What is the highest degree or level of school you have completed? (If currently enrolled, highest degree received)",
                 required: true
             }],
             type: "survey-multi-choice",
             direction: "ltr",
             name: "education"
+        }, {
+            questions: [{
+                rows: 1.0,
+                columns: 2.0,
+                value: "",
+                prompt: "What is your mother tongue (e.g., English, Spanish)?",
+                required: true
+            }],
+            type: "survey-text",
+            direction: "ltr",
+            name: "language_q"
         }];
 
         // Create end experimnt trials
@@ -386,147 +412,60 @@
                     "4",
                     "5"
                 ],
-                prompt: "מ-1 עד-5, עד כמה הייתה ברורה לך המטלה עם הריבועים המרצדים?",
+                prompt: "And now, a few last questions. <br>From 1 to 5, how clear was the task with the flickering squares to you?",
                 required: true
             }],
             type: "survey-likert",
-            direction: "rtl",
+            direction: "ltr",
             name: "LAST_1"
         }, {
             questions: [{
                 options: [
-                    "כן",
-                    "לא"
+                    "Yes",
+                    "No"
                 ],
-                prompt: "האם הייתה לך איזושהי אסטרטגיה?",
+                prompt: "Did you have any strategy?",
                 required: true
             }],
             type: "survey-multi-choice",
-            direction: "rtl",
+            direction: "ltr",
             name: "LAST_2"
         }, {
             questions: [{
                 rows: 7.0,
                 columns: 7.0,
                 value: "",
-                prompt: "אם כן, מהי?",
+                prompt: "If you did, what was the strategy?",
                 required: true
             }],
             type: "survey-text",
             name: "LAST_3"
         }, {
-            questions: [{
-                labels: [
-                    "1",
-                    "2",
-                    "3",
-                    "4",
-                    "5"
-                ],
-                prompt: "מ-1 עד-5, עד כמה הייתה ברורה לך המטלה בה היית צריכה להקיש למראה ריבוע אדום?",
-                required: true
-            }],
-            type: "survey-likert",
-            direction: "rtl",
-            name: "LAST_4"
-        }, {
-            questions: [{
-                options: [
-                    "כן",
-                    "לא"
-                ],
-                prompt: "האם הייתה לך איזושהי אסטרטגיה?",
-                required: true
-            }],
-            type: "survey-multi-choice",
-            direction: "rtl",
-            name: "LAST_5"
-        }, {
-            questions: [{
-                rows: 7.0,
-                columns: 7.0,
-                value: "",
-                prompt: "אם כן, מהי?",
-                required: true
-            }],
-            type: "survey-text",
-            name: "LAST_6"
-        }, {
-            questions: [{
-                labels: [
-                    "1",
-                    "2",
-                    "3",
-                    "4",
-                    "5",
-                    "6",
-                    "7"
-                ],
-                prompt: "בהשוואה לנהגת הממוצעת, כיצד היית מגדירה את הנהיגה שלך? כך ש-1 אומר הרבה מתחת לממוצע ו-7 אומר הרבה מעבר לממוצע?",
-                required: false
-            }],
-            type: "survey-likert",
-            direction: "rtl",
-            name: "DRIVE_1"
-        }, {
-            questions: [{
-                rows: 2.0,
-                columns: 1.0,
-                value: "",
-                prompt: "להערכתך, בכמה תאונות דרכים היית מעורבת <bold> כנהגת </bold> במהלך שלושת השנים האחרונות כולל תאונות קטנות וללא נזק",
-                required: false
-            }],
-            type: "survey-text",
-            name: "DRIVE_2"
-        }, {
-            questions: [{
-                rows: 2.0,
-                columns: 1.0,
-                value: "",
-                prompt: "להערכתך, בכמה תאונות דרכים היית מעורבת <bold> כהולכת רגל </bold> במהלך שלושת השנים האחרונות כולל תאונות קטנות וללא נזק",
-                required: true
-            }],
-            type: "survey-text",
-            name: "WALK"
-        }, {
             pages: [
-                "תודה שהשתתפת בניסוי, לחצי על המשך לסיום הניסוי."
+                "<strong>Thank you for participating in this experiment!<strong> <br>Please press <strong>\"next\"</strong> in order to end your participation and for your data to be saved. <br>For any questions, you can contact us via e-mail: gaya.aran@mail.huji.ac.il."
             ],
             show_clickable_nav: true,
             type: "instructions",
-            direction: "rtl",
-            name: "end_instructions"
+            direction: "ltr",
+            name: "end_instructions",
+            choices: ['next'],
+            fullscreen_mode: false
         }];
 
-        // The final timeline for the experiment
-        let experiment_timeline = []
+        const all_rms_trials = get_rms_trials();
+        const all_fsq_trials = get_fsq_trials();
+        const all_asrs_trials = get_asrs_trials();
 
-        // Add start to timeline
-        start.forEach(function (element) {
-            experiment_timeline.push(element);
-        });
 
-        const fsq_trials = get_fsq_trials()
+        let experiment_timeline = [
+            ...start,
+            ...all_rms_trials,
+            ...all_fsq_trials,
+            ...all_asrs_trials,
+            ...end
+        ];
 
-        fsq_trials.forEach(function (trial) {
-            experiment_timeline.push(trial);
-        })
-
-        const rms_trials = get_rms_trials();
-
-        rms_trials.forEach(function (trial) {
-            experiment_timeline.push(trial);
-        });
-
-        const asrs_trials = get_asrs_trials();
-
-        asrs_trials.forEach(function (trial) {
-            experiment_timeline.push(trial);
-        });
-
-        end.forEach(function (trial) {
-            experiment_timeline.push(trial);
-        });
+        
 
         // Init experiment (and run it)
         jsPsych.init({
@@ -537,8 +476,15 @@
                 download("data.csv", jsPsych.data.get().csv());
             }
         });
+    // What do we need to verify?
+    // . Fix in the instructions the time and consempation according to the reality check.
+    // . The RMS doesn't work properly.
+    // . Full screen doesn't work right now (?)
     </script>
+    
 
 </head>
 
 </html>
+
+
