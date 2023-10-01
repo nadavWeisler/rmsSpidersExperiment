@@ -81,6 +81,7 @@
             shuffle(images).forEach(element => {
                 trials.push({
                     type: "rms",
+                    // mondrian_max_opacity: 0.1,
                     stimulus: element,
                     choices: choices,
                     // right_up: choices[0],
@@ -144,19 +145,19 @@
 
         // All spiders stimulus (40 images for the validation of all of the stimuli)
         const imagesMainSpiders = [
-            "images/spidersWithoutBackground/spider1.png", "images/spidersWithoutBackground/spider2.png", "images/spidersWithoutBackground/spider3.png", 
-            "images/spidersWithoutBackground/spider4.png", "images/spidersWithoutBackground/spider5.png", "images/spidersWithoutBackground/spider7.png", 
-            "images/spidersWithoutBackground/spider6.png", "images/spidersWithoutBackground/spider8.png", "images/spidersWithoutBackground/spider9.png", 
-            "images/spidersWithoutBackground/spider10.png", "images/spidersWithoutBackground/spider11.png", "images/spidersWithoutBackground/spider12.png", 
-            "images/spidersWithoutBackground/spider13.png", "images/spidersWithoutBackground/spider14.png", "images/spidersWithoutBackground/spider15.png", 
-            "images/spidersWithoutBackground/spider16.png", "images/spidersWithoutBackground/spider17.png", "images/spidersWithoutBackground/spider18.png", 
-            "images/spidersWithoutBackground/spider19.png", "images/spidersWithoutBackground/spider20.png", "images/spidersWithoutBackground/spider21.png", 
-            "images/spidersWithoutBackground/spider22.png", "images/spidersWithoutBackground/spider23.png", "images/spidersWithoutBackground/spider24.png", 
-            "images/spidersWithoutBackground/spider25.png", "images/spidersWithoutBackground/spider26.png", "images/spidersWithoutBackground/spider27.png", 
-            "images/spidersWithoutBackground/spider28.png", "images/spidersWithoutBackground/spider29.png", "images/spidersWithoutBackground/spider30.png", 
-            "images/spidersWithoutBackground/spider31.png", "images/spidersWithoutBackground/spider32.png", "images/spidersWithoutBackground/spider33.png", 
-            "images/spidersWithoutBackground/spider34.png", "images/spidersWithoutBackground/spider35.png", "images/spidersWithoutBackground/spider36.png", 
-            "images/spidersWithoutBackground/spider37.png", "images/spidersWithoutBackground/spider38.png", "images/spidersWithoutBackground/spider39.png", 
+            "images/spidersWithoutBackground/spider1.png", "images/spidersWithoutBackground/spider2.png", "images/spidersWithoutBackground/spider3.png",
+            "images/spidersWithoutBackground/spider4.png", "images/spidersWithoutBackground/spider5.png", "images/spidersWithoutBackground/spider7.png",
+            "images/spidersWithoutBackground/spider6.png", "images/spidersWithoutBackground/spider8.png", "images/spidersWithoutBackground/spider9.png",
+            "images/spidersWithoutBackground/spider10.png", "images/spidersWithoutBackground/spider11.png", "images/spidersWithoutBackground/spider12.png",
+            "images/spidersWithoutBackground/spider13.png", "images/spidersWithoutBackground/spider14.png", "images/spidersWithoutBackground/spider15.png",
+            "images/spidersWithoutBackground/spider16.png", "images/spidersWithoutBackground/spider17.png", "images/spidersWithoutBackground/spider18.png",
+            "images/spidersWithoutBackground/spider19.png", "images/spidersWithoutBackground/spider20.png", "images/spidersWithoutBackground/spider21.png",
+            "images/spidersWithoutBackground/spider22.png", "images/spidersWithoutBackground/spider23.png", "images/spidersWithoutBackground/spider24.png",
+            "images/spidersWithoutBackground/spider25.png", "images/spidersWithoutBackground/spider26.png", "images/spidersWithoutBackground/spider27.png",
+            "images/spidersWithoutBackground/spider28.png", "images/spidersWithoutBackground/spider29.png", "images/spidersWithoutBackground/spider30.png",
+            "images/spidersWithoutBackground/spider31.png", "images/spidersWithoutBackground/spider32.png", "images/spidersWithoutBackground/spider33.png",
+            "images/spidersWithoutBackground/spider34.png", "images/spidersWithoutBackground/spider35.png", "images/spidersWithoutBackground/spider36.png",
+            "images/spidersWithoutBackground/spider37.png", "images/spidersWithoutBackground/spider38.png", "images/spidersWithoutBackground/spider39.png",
             "images/spidersWithoutBackground/spider40.png"
         ]
 
@@ -235,11 +236,7 @@
         const fsq_survey = getSurveyTrials("survey-likert", "fsq", fsq_questions, "ltr", fsq_labels)
 
         function get_fsq_trials() {
-            let fsq_trials = [fsq_instructions];
-
-            shuffle(fsq_survey).forEach(function (trial) {
-                fsq_trials.push(trial);
-            });
+            let fsq_trials = [fsq_instructions, ...fsq_survey];
 
             return fsq_trials;
         }
@@ -290,13 +287,7 @@
 
 
         function get_asrs_trials() {
-            let asrs_trials = [asrs_instructions];
-            shuffle(asrs_inattention_survey).forEach(function (trial) {
-                asrs_trials.push(trial);
-            });
-            shuffle(asrs_hyperactivity_impulsivity_survey).forEach(function (trial) {
-                asrs_trials.push(trial);
-            });
+            let asrs_trials = [asrs_instructions, ...asrs_inattention_survey, ...asrs_hyperactivity_impulsivity_survey];
             return asrs_trials;
         }
 
@@ -311,11 +302,9 @@
                 "<b>CONTACT</b><br>If you have questions at any time about the study or the procedures, you may contact the researcher, Gaya Aran via email at gaya.aran@mai.huji.ac.il<br><br><b>ELECTRONIC CONSENT:</b><br> Please note - clicking on the “Next >” button indicates that:<br>•You have read the above information<br>• You voluntarily agree to participate<br>• You are 18 years of age or older<br>If you do not want to participate please close the window. Your data will not be used either way.",
                 "We are about to begin. First, please answer the next few questions regarding demographic information. After that, you will be asked to peform computerized task, and answer two more questionnaires."
             ],
-            show_clickable_nav: true,
-            type: "instructions",
-            direction: "ltr",
-            name: "gender_instructions",
-            fullscreen_mode: true
+            type: 'fullscreen',
+            fullscreen_mode: true,
+            name: "start_instructions",
         }, {
             questions: [{
                 options: ["Male", "Female", "Other"],
@@ -465,26 +454,25 @@
             ...end
         ];
 
-        
+        // experiment_timeline = get_rms_trials();
 
         // Init experiment (and run it)
         jsPsych.init({
             timeline: experiment_timeline,
             fullscreen: true,
             on_finish: function () {
+                document.exitFullscreen();
                 // Download subject data as .csv file
                 download("data.csv", jsPsych.data.get().csv());
             }
         });
-    // What do we need to verify?
-    // . Fix in the instructions the time and consempation according to the reality check.
-    // . The RMS doesn't work properly.
-    // . Full screen doesn't work right now (?)
+        // What do we need to verify?
+        // . Fix in the instructions the time and consempation according to the reality check.
+        // . The RMS doesn't work properly.
+        // . Full screen doesn't work right now (?)
     </script>
-    
+
 
 </head>
 
 </html>
-
-
