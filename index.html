@@ -145,7 +145,7 @@
 
         // All spiders stimulus (40 images for the validation of all of the stimuli)
         const imagesMainSpiders = [
-            "images/spidersWithoutBackground/spider1.png", "images/spidersWithoutBackground/spider2.png", "images/spidersWithoutBackground/spider3.png",
+            "images/spidersWithoutBackground/spider2.png", "images/spidersWithoutBackground/spider3.png",
             "images/spidersWithoutBackground/spider4.png", "images/spidersWithoutBackground/spider5.png", "images/spidersWithoutBackground/spider7.png",
             "images/spidersWithoutBackground/spider6.png", "images/spidersWithoutBackground/spider8.png", "images/spidersWithoutBackground/spider9.png",
             "images/spidersWithoutBackground/spider10.png", "images/spidersWithoutBackground/spider11.png", "images/spidersWithoutBackground/spider12.png",
@@ -158,7 +158,7 @@
             "images/spidersWithoutBackground/spider31.png", "images/spidersWithoutBackground/spider32.png", "images/spidersWithoutBackground/spider33.png",
             "images/spidersWithoutBackground/spider34.png", "images/spidersWithoutBackground/spider35.png", "images/spidersWithoutBackground/spider36.png",
             "images/spidersWithoutBackground/spider37.png", "images/spidersWithoutBackground/spider38.png", "images/spidersWithoutBackground/spider39.png",
-            "images/spidersWithoutBackground/spider40.png"
+            "images/spidersWithoutBackground/spider41.png", "images/spidersWithoutBackground/spider42.png"
         ]
 
         // All main task not reverted faces stimulus (20 images)
@@ -201,7 +201,7 @@
         // Create ASRS instructions
         const fsq_instructions = {
             pages: [
-                "Thank you for the participation so far. Now, you will be asked to answer TWO surveys. <br> <h1>Survey 1</h1> For each item, please indicate how much you agree with the presented statement on a scale of 0 to 7. <br> <strong>0 means: strongly disagree, and 7 means: strongly agree.</strong> <br>Press \"Continue\" to start the survey."
+                "Thank you for the participation so far. Now, you will be asked to answer TWO surveys. <br><br> <h1>Survey 1</h1> For each item, please indicate how much you agree with the presented statement on a scale of 0 to 7. <br> <strong>0 means: strongly disagree, and 7 means: strongly agree.</strong> <br>Press \"Continue\" to start the survey."
             ],
             show_clickable_nav: true,
             type: "instructions",
@@ -302,9 +302,14 @@
                 "<b>CONTACT</b><br>If you have questions at any time about the study or the procedures, you may contact the researcher, Gaya Aran via email at gaya.aran@mai.huji.ac.il<br><br><b>ELECTRONIC CONSENT:</b><br> Please note - clicking on the “Next >” button indicates that:<br>•You have read the above information<br>• You voluntarily agree to participate<br>• You are 18 years of age or older<br>If you do not want to participate please close the window. Your data will not be used either way.",
                 "We are about to begin. First, please answer the next few questions regarding demographic information. After that, you will be asked to peform computerized task, and answer two more questionnaires."
             ],
+            show_clickable_nav: true,
+            type: "instructions",
+            direction: "ltr",
+            name: "start_instructions",
+        }, {
             type: 'fullscreen',
             fullscreen_mode: true,
-            name: "start_instructions",
+            name: "fullscreen_instructions",
         }, {
             questions: [{
                 options: ["Male", "Female", "Other"],
@@ -437,8 +442,7 @@
             type: "instructions",
             direction: "ltr",
             name: "end_instructions",
-            choices: ['next'],
-            fullscreen_mode: false
+            choices: ['next']
         }];
 
         const all_rms_trials = get_rms_trials();
